@@ -94,7 +94,24 @@ def build_dataset(n_pairs_per_topology: int, seed: int, categories: Dict[str, Ca
 
 
 
-
+def build_order_swap_control(dataset: List[GameInstanceSchema]) -> List[GameInstanceSchema]:
+    """Falsification control #1 (README Part J, alternative explanation #1
+    -- position bias). Moves the WHOLE (label, payoff-pair) package between
+    slots: both the valence<->correctness and payoff<->correctness
+    associations are preserved bit-for-bit, only which slot is described
+    FIRST in the sequence changes. correct_slot flips accordingly."""
+    swapped = []
+    for inst in dataset:
+        if inst.projection != "canon":
+            continue
+        new_payoffs = {"R": inst.payoffs["T"], "S": inst.payoffs["P"], "T": inst.payoffs["R"], "P": inst.payoffs["S"]}
+        new_correct_slot = "B" if inst.correct_slot == "A" else "A"
+        swapped.append(GameInstanceSchema(
+            instance_id=inst.instance_id + "_orderswap", topology_type=inst.topology_type,
+            payoffs=new_payoffs, label_A=inst.label_B, label_B=inst.label_A, correct_slot=new_correct_slot,
+            projection="canon", semantic_category=inst.semantic_category, payoff_margin=inst.payoff_margin,
+            seed=inst.seed))
+    return swapped
 
 
 
