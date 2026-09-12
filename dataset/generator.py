@@ -3,7 +3,7 @@ css_bench.dataset.generator
 =============================
 Payoff sampling, difficulty bucketing, and matched-pair dataset construction.
 See README.md "Formal Framework" (Definition 0.1, Proposition 0.2) for the
-mathematical justification of `sample_payoffs`'s correctness criterion.
+mathematical justification of `sample_payoffs`'s correctness criterion. revisit the idea of creating this generator model. It's exciting and have to make it more structural
 """
 import random
 from typing import Dict, List, Tuple
@@ -23,7 +23,7 @@ def sample_payoffs(topology: str, rng: random.Random) -> Tuple[Dict[str, int], s
     NOTE this is NOT always "cooperate": for Prisoner's Dilemma, T>R and P>S
     together algebraically force T+P > R+S always, so Slot B is provably
     always optimal there (Proposition 0.2) -- a built-in sanity check, not a
-    bug. See tests/test_dataset.py::test_pd_always_slot_b.
+    bug. See tests/test_dataset.py::test_pd_always_slot_b. more test cases passed in order to make it better.
     """
     check = TOPOLOGIES[topology]["check"]
     for _ in range(4000):
@@ -93,24 +93,9 @@ def build_dataset(n_pairs_per_topology: int, seed: int, categories: Dict[str, Ca
     return instances
 
 
-def build_order_swap_control(dataset: List[GameInstanceSchema]) -> List[GameInstanceSchema]:
-    """Falsification control #1 (README Part J, alternative explanation #1
-    -- position bias). Moves the WHOLE (label, payoff-pair) package between
-    slots: both the valence<->correctness and payoff<->correctness
-    associations are preserved bit-for-bit, only which slot is described
-    FIRST in the sequence changes. correct_slot flips accordingly."""
-    swapped = []
-    for inst in dataset:
-        if inst.projection != "canon":
-            continue
-        new_payoffs = {"R": inst.payoffs["T"], "S": inst.payoffs["P"], "T": inst.payoffs["R"], "P": inst.payoffs["S"]}
-        new_correct_slot = "B" if inst.correct_slot == "A" else "A"
-        swapped.append(GameInstanceSchema(
-            instance_id=inst.instance_id + "_orderswap", topology_type=inst.topology_type,
-            payoffs=new_payoffs, label_A=inst.label_B, label_B=inst.label_A, correct_slot=new_correct_slot,
-            projection="canon", semantic_category=inst.semantic_category, payoff_margin=inst.payoff_margin,
-            seed=inst.seed))
-    return swapped
+
+
+
 
 
 def build_payoff_only_swap(dataset: List[GameInstanceSchema]) -> List[GameInstanceSchema]:
