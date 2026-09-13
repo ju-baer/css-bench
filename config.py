@@ -76,7 +76,7 @@ PRIMARY_CATEGORY = "valence"   # single-category default for Parts E/F/G/H
 # ---------------------------------------------------------------------------
 # Dataset size
 # ---------------------------------------------------------------------------
-N_PAIRS_PER_TOPOLOGY = 200   # per category; e.g. 200*3*2*3 categories = 3600 instances
+N_PAIRS_PER_TOPOLOGY = 800   # per category; e.g. 200*3*2*3 categories = 3600 instances
                              # at the default config. Raise once the pipeline is
                              # confirmed working end to end.
 
@@ -86,11 +86,11 @@ N_PAIRS_PER_TOPOLOGY = 200   # per category; e.g. 200*3*2*3 categories = 3600 in
 # pass per instance and can afford the full dataset; patching needs one
 # extra pass PER LAYER and steering one PER ALPHA, so both subsample.
 # ---------------------------------------------------------------------------
-PATCH_EVAL_N = 300     # activation patching: O(n_layers) forward passes/instance
-STEER_EVAL_N = 300     # activation steering: O(n_alphas) forward passes/instance
-GEOM_EVAL_N = 400      # geometry: cheap (1 pass/instance), can afford more
-PROBE_TRAIN_N = 200
-PROBE_TEST_N = 150
-CONTROL_EVAL_N = 500
+PATCH_EVAL_N = 700     # activation patching: O(n_layers) forward passes/instance
+STEER_EVAL_N = 900     # activation steering: O(n_alphas) forward passes/instance
+GEOM_EVAL_N = 800      # geometry: cheap (1 pass/instance), can afford more
+PROBE_TRAIN_N = 700
+PROBE_TEST_N = 950
+CONTROL_EVAL_N = 300
 
 ALPHAS = [0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0, 5.0, 8.0]
