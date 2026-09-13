@@ -58,6 +58,7 @@ MODEL_REGISTRY = {
 # Recommended order: smoke test (scripts/run_smoke_test.py) -> "small" tier
 # (fast, cheap, good for iterating) -> add "mid" once "small" runs clean.
 ACTIVE_TIERS = ["small", "mid"]           # edit to ["small"] for a cheaper first full run
+# ACTIVE_TIERS = ["mid"] -- for just mid level model testing
 ACTIVE_MODELS = [k for k, v in MODEL_REGISTRY.items() if v["tier"] in ACTIVE_TIERS]
 
 SMOKE_TEST_MODEL = "qwen2.5-1.5b-instruct"  # small, ungated
